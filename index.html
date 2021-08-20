@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1 id = "inv">Inventory</h1>
+	<div id = "input">
+		<input type="text" name="name" id = "name" placeholder = "Name">
+		<input type="text" name="size" id = "size" placeholder = "Size">
+		<input type="text" name="condo" id = "condo" placeholder = "Condition">
+		<input type="text" name="notes" id = "notes" placeholder = "Additional Notes">
+		<input type="text" name="price" id = "price" placeholder = "Purchase Price($)">
+		<input type="text" name="sold" id = "sold" placeholder = "Sales Price($)">
+		<button id = "add">Add</button>
+		<button id = "clear">Clear All</button><br><br>
+	</div>
+	<div id = "editFunction">
+		<input type="text" name="name2" id="name2" placeholder="New Name">
+		<input type="text" name="size2" id="size2" placeholder="New Size">
+		<input type="text" name="condo2" id="condo2" placeholder="New Condition">
+		<input type="text" name="notes2" id="notes2" placeholder="New Notes">
+		<input type="text" name="price2" id="price2" placeholder="New Purchase Price($)">
+		<input type="text" name="sold2" id="sold2" placeholder="New Sales Price($)">
+		<button id="edit">Update</button>
+		<button id="cancel">Cancel</button><br><br>
+	</div>
+	<table id = "table">
+		<tr>
+			<th></th>
+			<th>Name</th>
+			<th>Size</th>
+			<th>Condition</th>
+			<th>Additional Notes</th>
+			<th>Purchase Price($)</th>
+			<th>Sales Price($)</th>
+			<th>Profit($)</th>
+			<th>ROI(%)</th>
+		</tr>
+	</table> <br><br>
+	<table id = "totalProfit">
+		<tr>
+			<th>Total Profit($)</th>
+		</tr>
+		<tr>
+			<td id = "money">0</td>
+		</tr>
+		
+	</table>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+	    apiKey: "AIzaSyClhB0aW3o3xMwOdb1J8qedwoHVbvv8ztY",
+	    authDomain: "inventory-tracker-59d3f.firebaseapp.com",
+	    projectId: "inventory-tracker-59d3f",
+	    storageBucket: "inventory-tracker-59d3f.appspot.com",
+	    messagingSenderId: "91416708731",
+	    appId: "1:91416708731:web:ad589b6e78b062c68d04de"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>
+	<script src="script.js"></script>
+</body>
+</html>
