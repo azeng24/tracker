@@ -1,7 +1,7 @@
 var tempID = 0;
 var profit = 0;
 
-function create(){
+function addItem(){
 	var name = document.getElementById('name');
 	var size = document.getElementById('size');
 	var condo = document.getElementById('condo');
@@ -13,11 +13,17 @@ function create(){
 	var roi = profit/price.value*100;
 	roi = roi.toFixed(2);
 	if(isNaN(roi)) roi = 'N/A';
-	var task = {"id": Date.now(), "name": name.value, "size": size.value, "condo": condo.value, "notes": notes.value, "purchasePrice": price.value, "salesPrice": sold.value, "profit": profit, "roi": roi};
-	var taskList = getTaskList();
-	taskList.push(task);
-	localStorage.setItem('taskList', JSON.stringify(taskList));
-	renderTask(task, task.name, task.size, task.condo, task.notes, task.purchasePrice, task.salesPrice, task.profit, task.roi);
+	var dataPoint = {
+		name: name.value, 
+		size: size.value, 
+		condo: condo.value, 
+		notes: notes.value, 
+		purchasePrice: price.value, 
+		salesPrice: sold.value, 
+		profit: profit, 
+		roi: roi
+	};
+	var item = databaseRef.push(dataPoint);
 	name.value = '';
 	size.value = '';
 	condo.value = '';
@@ -26,20 +32,11 @@ function create(){
 	sold.value = '';
 }
 
-function getTaskList(){
-	var taskList = localStorage.getItem('taskList');
-	if(taskList !== null){
-		return JSON.parse(taskList);
-	}else{
-		return [];
-	}
-}
-
-function renderTask(task, x1, x2, x3, x4, x5, x6, x7, x8){
+function renderTask(id, x1, x2, x3, x4, x5, x6, x7, x8){
 	const info = [x1,x2,x3,x4,x5,x6,x7,x8];
 	var table = document.getElementById('table');
 	var row = document.createElement('tr');
-	row.id = task.id;
+	row.id = id;
 	var buttons = document.createElement('td');
 	buttons.innerHTML = `<button class='update'>&#9998;</button>
 						<button class='delete'>X</button>`;
@@ -60,7 +57,6 @@ function renderTask(task, x1, x2, x3, x4, x5, x6, x7, x8){
 }
 
 function clearAll(){
-	localStorage.clear();
 	var table = document.getElementById('table');
 	var length = table.rows.length;
 	for(var i = 1; i<length; i++){
@@ -68,6 +64,7 @@ function clearAll(){
 	}
 	profit = 0;
 	document.getElementById('money').innerHTML = profit;
+	firebase.database().ref('item').remove();
 }
 
 function remove(event){
@@ -76,12 +73,8 @@ function remove(event){
 	var content = parent.getElementsByClassName('content');
 	profit-=parseFloat(content[6].innerHTML);
 	document.getElementById('money').innerHTML = profit;
-	var taskList = getTaskList();
-	var newTL = taskList.filter(function(task){
-		return task.id != id;
-	});
-	localStorage.setItem('taskList', JSON.stringify(newTL));
 	document.getElementById(id).innerHTML = '';
+	
 }
 
 function update(event){
@@ -119,12 +112,6 @@ function edit(){
 		var newROI = (list[5]-list[4])/list[4]*100;
 		newROI = newROI.toFixed(2);
 		var task = {"id": tempID, "name": list[0], "size": list[1], "condo": list[2], "notes": list[3], "purchasePrice": list[4], "salesPrice": list[5], "profit": newProfit, "roi": newROI};
-		var taskList = getTaskList();
-		var newTL = taskList.filter(function(task){
-			return task.id!=tempID;
-		});
-		newTL.push(task);
-		localStorage.setItem('taskList', JSON.stringify(newTL));
 		var element = document.getElementById(tempID);
 		element.getElementsByClassName('content')[0].innerHTML = list[0];
 		element.getElementsByClassName('content')[1].innerHTML = list[1];
@@ -151,49 +138,13 @@ function cancel(){
 	document.getElementById("editFunction").style.display = "none";
 }
 
-function read(){
-	var taskList = getTaskList();
-	for(var i = 0; i<taskList.length; i++){
-		renderTask(taskList[i], taskList[i].name, taskList[i].size, taskList[i].condo, taskList[i].notes, taskList[i].purchasePrice, taskList[i].salesPrice, taskList[i].profit, taskList[i].roi);
-	}
-}
-
 var databaseRef = firebase.database().ref('item');
-function addItem(){
-	var name = document.getElementById('name');
-	var size = document.getElementById('size');
-	var condo = document.getElementById('condo');
-	var notes = document.getElementById('notes');
-	var price = document.getElementById('price');
-	var sold = document.getElementById('sold');
-	var profit = sold.value-price.value;
-	profit = profit.toFixed(2);
-	var roi = profit/price.value*100;
-	roi = roi.toFixed(2);
-	if(isNaN(roi)) roi = 'N/A';
-	var dataPoint = {
-		id: Date.now,
-		name: name.value, 
-		size: size.value, 
-		condo: condo.value, 
-		notes: notes.value, 
-		purchasePrice: price.value, 
-		salesPrice: sold.value, 
-		profit: profit, 
-		roi: roi
-	};
-	var item = databaseRef.push(dataPoint);
-	var uid = item.key;
-	name.value = '';
-	size.value = '';
-	condo.value = '';
-	notes.value = '';
-	price.value = '';
-	sold.value = '';
-}
-document.getElementById('add').addEventListener('click', create);
+var databaseRef2 = firebase.database().ref('total profit');
+databaseRef.on('child_added', (snapshot) => {
+	renderTask(snapshot.key, snapshot.val().name, snapshot.val().size, snapshot.val().condo, snapshot.val().notes, snapshot.val().purchasePrice, snapshot.val().salesPrice, snapshot.val().profit, snapshot.val().roi)
+});
+
 document.getElementById('clear').addEventListener('click', clearAll);
 document.getElementById('edit').addEventListener('click', edit);
 document.getElementById('cancel').addEventListener('click', cancel);
-
-read();
+document.getElementById('add').addEventListener('click', addItem);
