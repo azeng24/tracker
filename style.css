@@ -18,3 +18,12 @@ td, th{
 #editFunction{
 	display: none;
 }
+
+#inv{
+	text-align: center;
+	text-decoration: underline;
+}
+
+body{
+  background-color: #D2B48C;
+}

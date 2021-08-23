@@ -51,6 +51,7 @@ function renderTask(id, x1, x2, x3, x4, x5, x6, x7, x8){
 	}
 	profit+=parseFloat(x7);
 	document.getElementById('money').innerHTML = profit;
+	firebase.database().ref(databaseRef2).set({profit: profit});
 
 	buttons.getElementsByClassName('delete')[0].addEventListener('click', function(e){remove(e);});
 	buttons.getElementsByClassName('update')[0].addEventListener('click', function(e){update(e);})
@@ -65,6 +66,7 @@ function clearAll(){
 	profit = 0;
 	document.getElementById('money').innerHTML = profit;
 	firebase.database().ref('item').remove();
+	firebase.database().ref(databaseRef2).set({profit: '0'});
 }
 
 function remove(event){
@@ -73,8 +75,9 @@ function remove(event){
 	var content = parent.getElementsByClassName('content');
 	profit-=parseFloat(content[6].innerHTML);
 	document.getElementById('money').innerHTML = profit;
+	firebase.database().ref(databaseRef2).set({profit: profit});
 	document.getElementById(id).innerHTML = '';
-	
+	firebase.database().ref("item").child(id).remove();
 }
 
 function update(event){
@@ -95,6 +98,7 @@ function update(event){
 	document.getElementById('price2').value = t5;
 	document.getElementById('sold2').value = t6;
 	profit-=parseFloat(content[6].innerHTML);
+	firebase.database().ref(databaseRef2).set({profit: profit});
 	tempID = id;
 }
 
@@ -106,23 +110,30 @@ function edit(){
 		var t4 = document.getElementById('notes2').value;
 		var t5 = document.getElementById('price2').value;
 		var t6 = document.getElementById('sold2').value;
-		const list = [t1,t2,t3,t4,t5,t6];
-		var newProfit = list[5]-list[4];
+		var newProfit = t6-t5;
 		newProfit = newProfit.toFixed(2);
-		var newROI = (list[5]-list[4])/list[4]*100;
+		var newROI = (t6-t5)/t5*100;
 		newROI = newROI.toFixed(2);
-		var task = {"id": tempID, "name": list[0], "size": list[1], "condo": list[2], "notes": list[3], "purchasePrice": list[4], "salesPrice": list[5], "profit": newProfit, "roi": newROI};
 		var element = document.getElementById(tempID);
-		element.getElementsByClassName('content')[0].innerHTML = list[0];
-		element.getElementsByClassName('content')[1].innerHTML = list[1];
-		element.getElementsByClassName('content')[2].innerHTML = list[2];
-		element.getElementsByClassName('content')[3].innerHTML = list[3];
-		element.getElementsByClassName('content')[4].innerHTML = list[4];
-		element.getElementsByClassName('content')[5].innerHTML = list[5];
+		element.getElementsByClassName('content')[0].innerHTML = t1;
+		element.getElementsByClassName('content')[1].innerHTML = t2;
+		element.getElementsByClassName('content')[2].innerHTML = t3;
+		element.getElementsByClassName('content')[3].innerHTML = t4;
+		element.getElementsByClassName('content')[4].innerHTML = t5;
+		element.getElementsByClassName('content')[5].innerHTML = t6;
 		element.getElementsByClassName('content')[6].innerHTML = newProfit;
 		element.getElementsByClassName('content')[7].innerHTML = newROI;
 		profit+=parseFloat(newProfit);
 		document.getElementById('money').innerHTML = profit;
+		firebase.database().ref(databaseRef2).set({profit: profit});
+		firebase.database().ref("item").child(tempID).update({name: t1, 
+														size: t2, 
+														condo: t3, 
+														notes: t4, 
+														purchasePrice: t5, 
+														salesPrice: t6, 
+														profit: newProfit, 
+														roi: newROI});
 		cancel();
 	}
 }
@@ -140,10 +151,10 @@ function cancel(){
 
 var databaseRef = firebase.database().ref('item');
 var databaseRef2 = firebase.database().ref('total profit');
+firebase.database().ref(databaseRef2).update({profit: '0'});
 databaseRef.on('child_added', (snapshot) => {
 	renderTask(snapshot.key, snapshot.val().name, snapshot.val().size, snapshot.val().condo, snapshot.val().notes, snapshot.val().purchasePrice, snapshot.val().salesPrice, snapshot.val().profit, snapshot.val().roi)
 });
-
 document.getElementById('clear').addEventListener('click', clearAll);
 document.getElementById('edit').addEventListener('click', edit);
 document.getElementById('cancel').addEventListener('click', cancel);
