@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>HTML5本地存储之Web Storage篇</title>
+</head>
+
+<body>
+    <div id="sign-in" style="border: 2px dashed #ccc; width:320px; text-align:center; margin: auto;">
+        <label for="sitename">Username：</label>
+        <input type="text" id="sitename" name="sitename" class="text" />
+        <br />
+        <label for="keyname">Password:</label>
+        <input type="text" id="keyname" name="keyname" class="text" />
+        <br />
+        <!--<label for="siteurl">URL：</label>  
+        <input type="text" id="siteurl" name="siteurl"/>  
+        <br/>--><br />
+        <input type="button" onclick="save()" value="Create Account" />
+        <hr />
+        <label for="search_phone">Password：</label>
+        <input type="text" id="search_site" name="search_site" />
+        <input type="button" onclick="find()" value="Find" />
+        <p id="find_result"><br /></p>
+    </div>
+    <br />
+    <div id="list">
+    </div>
+    <script>
+        function save() {
+            var site = new Object;
+            site.sitename = document.getElementById("sitename").value;
+            site.keyname = document.getElementById("keyname").value;
+            if (site.sitename === "" || site.sitename === null) return alert("Fill in the username!");
+            if (site.keyname === "" || site.keyname === null) return alert("Fill in the password!");
+            // site.siteurl = document.getElementById("siteurl").value;
+            if (localStorage.getItem("userPass")) {
+                let items = localStorage.getItem("userPass");
+                let newItems = JSON.parse("[" + items + `, {"user": "${site.sitename}", "pass": "${site.keyname}"}` + "]");
+                localStorage.setItem(`userPass`, `${(JSON.stringify(newItems)).substring(1, JSON.stringify(newItems).length-1)}`);
+            } else {
+                localStorage.setItem(`userPass`, `{"user": "${site.sitename}", "pass": "${site.keyname}"}`);
+            }
+
+            alert("Account successfully created!");
+            document.getElementById("sitename").value = '';
+            document.getElementById("keyname").value = '';
+            //document.getElementById("siteurl").value = '';
+            location.href = "index.html";
+        }
+        //查找数据  
+        function find() {
+            var search_site = document.getElementById("search_site").value;
+            var str = localStorage.getItem(search_site);
+            var find_result = document.getElementById("find_result");
+            var site = JSON.parse(str);
+            return console.log(site)
+            location.href = "index.html";
+            find_result.innerHTML = search_site + "的网站名是：" + site.sitename + "，网址是：" + site.siteurl;
+        }
+
+        //将所有存储在localStorage中的对象提取出来，并展现到界面上
+        // 确保存储的 keyname 对应的值为转换对象，否则JSON.parse会报错
+        function loadAll() {
+            var list = document.getElementById("list");
+            if (localStorage.getItem("userPass").length > 0) {
+                var result = "<table border='1'>";
+                result += "<tr><td>Password</td><td>Username</td><td>网址</td></tr>";
+                let items = localStorage.getItem("userPass");
+                console.log(items)
+                let itemsJSON = JSON.parse("[" + items + "]");
+                itemsJSON.forEach(e => {
+                    result += "<tr><td>" + e.pass + "</td><td>" + e.user + "</td><td>" + "" + "</td></tr>";
+                });
+
+                result += "</table>";
+                list.innerHTML = result;
+            } else {
+                list.innerHTML = "No accounts created...";
+            }
+        }
+    </script>
+</body>
+
+</html>

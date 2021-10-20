@@ -1,0 +1,33 @@
+#table{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#totalProfit{
+	width: 15%;
+	border-collapse: collapse;
+	float: right;
+	}
+
+td, th{
+	border: 1px solid;
+	text-align: left;
+	padding: 8px;
+}
+
+#editFunction{
+	display: none;
+}
+
+#inv{
+	text-align: center;
+	text-decoration: underline;
+}
+
+body{
+  background-color: #D2B48C;
+}
+
+#sign-in{
+	
+}
