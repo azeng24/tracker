@@ -7,21 +7,65 @@
 	<h1 id = "inv">Inventory</h1>
 	<div id = "input">
 		<input type="text" name="name" id = "name" placeholder = "Name">
-		<input type="text" name="size" id = "size" placeholder = "Size">
+		<select type="text" name="size" id = "size" placeholder = "Size">
+			<option value="1">Size: 1</option>
+			<option value="1.5">Size: 1.5</option>
+			<option value="2">Size: 2</option>
+			<option value="2.5">Size: 2.5</option>
+			<option value="3">Size: 3</option>
+			<option value="3.5">Size: 3.5</option>
+			<option value="4">Size: 4</option>
+			<option value="4.5">Size: 4.5</option>
+			<option value="5">Size: 5</option>
+			<option value="5.5">Size: 5.5</option>
+			<option value="6">Size: 6</option>
+			<option value="6.5">Size: 6.5</option>
+			<option value="7">Size: 7</option>
+			<option value="7.5">Size: 7.5</option>
+			<option value="8">Size: 8</option>
+			<option value="8.5">Size: 8.5</option>
+			<option value="9">Size: 9</option>
+			<option value="9.5">Size: 9.5</option>
+			<option value="10">Size: 10</option>
+			<option value="10.5">Size: 10.5</option>
+			<option value="11">Size: 11</option>
+			<option value="11.5">Size: 11.5</option>
+			<option value="12">Size: 12</option>
+			<option value="12.5">Size: 12.5</option>
+			<option value="13">Size: 13</option>
+			<option value="13.5">Size: 13.5</option>
+			<option value="14">Size: 14</option>
+			<option value="14.5">Size: 14.5</option>
+			<option value="15">Size: 15</option>
+			<option value="15.5">Size: 15.5</option>
+			<option value="16">Size: 16</option>
+			<option value="16.5">Size: 16.5</option>
+			<option value="17">Size: 17</option>
+			<option value="17.5">Size: 17.5</option>
+			<option value="18">Size: 18</option>
+			<option value="18.5">Size: 18.5</option>
+			<option value="19">Size: 19</option>
+		</select>
+		<select type="text" name="age" id = "age" placeholder = "Age">
+			<option value="none"></option>
+			<option value="Y">Y</option>
+			<option value="W">W</option>
+			<option value="C">C</option>
+		</select>
 		<input type="text" name="condo" id = "condo" placeholder = "Condition">
 		<input type="text" name="notes" id = "notes" placeholder = "Additional Notes">
-		<input type="text" name="price" id = "price" placeholder = "Purchase Price($)">
-		<input type="text" name="sold" id = "sold" placeholder = "Sales Price($)">
+		<input type="number" name="price" id = "price" placeholder = "Purchase Price($)">
+		<input type="number" min="0" step="1" name="sold" id = "sold" placeholder = "Sales Price($)">
 		<button id = "add">Add</button>
 		<button id = "clear">Clear All</button><br><br>
 	</div>
 	<div id = "editFunction">
-		<input type="text" name="name2" id="name2" placeholder="New Name">
-		<input type="text" name="size2" id="size2" placeholder="New Size">
-		<input type="text" name="condo2" id="condo2" placeholder="New Condition">
-		<input type="text" name="notes2" id="notes2" placeholder="New Notes">
-		<input type="text" name="price2" id="price2" placeholder="New Purchase Price($)">
-		<input type="text" name="sold2" id="sold2" placeholder="New Sales Price($)">
+		<input type="text" name="name2" id="name2" placeholder="Add Name">
+		<input type="text" name="size2" id="size2" placeholder="Add Size">
+		<input type="text" name="condo2" id="condo2" placeholder="Add Condition">
+		<input type="text" name="notes2" id="notes2" placeholder="Add Notes">
+		<input type="text" name="price2" id="price2" placeholder="Add Purchase Price($)">
+		<input type="text" name="sold2" id="sold2" placeholder="Add Sales Price($)">
 		<button id="edit">Update</button>
 		<button id="cancel">Cancel</button><br><br>
 	</div>
