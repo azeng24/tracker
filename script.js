@@ -15,7 +15,7 @@ function addItem() {
 	roi = roi.toFixed(2);
 	if (isNaN(roi)) roi = 'N/A';
 
-	if(age.value === 'none') age.value = "";
+	if (age.value === 'none') age.value = "";
 
 	let dataPoint = {
 		name: name.value,
@@ -48,8 +48,19 @@ function renderTask(id, x1, x2, x3, x4, x5, x6, x7, x8) {
 	table.appendChild(row);
 	for (var i = 0; i < info.length; i++) {
 		var item = document.createElement('td');
+		var addDollarSymbol = [4, 5, 6];
+		var addPercentSymbol = [7];
 		item.className = 'content';
-		item.innerHTML = info[i];
+
+		if (addDollarSymbol.includes(i)) {
+			item.innerHTML = `$${info[i]}`;
+		}
+		else if( addPercentSymbol.includes(i)){
+			item.innerHTML = `${info[i]}%`
+		}
+		else item.innerHTML = info[i];
+
+
 		row.appendChild(item);
 		table.appendChild(row);
 	}
