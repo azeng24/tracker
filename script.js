@@ -55,7 +55,7 @@ function renderTask(id, x1, x2, x3, x4, x5, x6, x7, x8) {
 		if (addDollarSymbol.includes(i)) {
 			item.innerHTML = `$${info[i]}`;
 		}
-		else if( addPercentSymbol.includes(i)){
+		else if (addPercentSymbol.includes(i)) {
 			item.innerHTML = `${info[i]}%`
 		}
 		else item.innerHTML = info[i];
