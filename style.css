@@ -1,33 +1,54 @@
-#table{
-	width: 100%;
-	border-collapse: collapse;
+#table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-#totalProfit{
-	width: 15%;
-	border-collapse: collapse;
-	float: right;
-	}
-
-td, th{
-	border: 1px solid;
-	text-align: left;
-	padding: 8px;
+#totalProfit {
+    width: 15%;
+    border-collapse: collapse;
+    float: right;
 }
 
-#editFunction{
-	display: none;
+td,
+th {
+    border: 1px solid;
+    text-align: left;
+    padding: 8px;
 }
 
-#inv{
-	text-align: center;
-	text-decoration: underline;
+#editFunction {
+    display: none;
 }
 
-body{
-  background-color: #D2B48C;
+#inv {
+    text-align: center;
+    text-decoration: underline;
 }
 
-#sign-in{
-	
+body {
+    background-color: #D2B48C;
+}
+
+#sign-in {}
+
+#top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 6px;
+}
+
+#account {
+    display: inline-block;
+    flex-grow: 1;
+    min-width: auto;
+    text-align: right;
+}
+
+#user {
+    margin-bottom: 0px;
+}
+
+.utility {
+    width: 60px;
 }
