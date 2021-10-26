@@ -1,5 +1,6 @@
 var tempID = 0;
 var profit = 0;
+let currentAccount = localStorage.getItem('currentAccount')
 
 function addItem() {
     let name = document.getElementById('name');
@@ -27,10 +28,8 @@ function addItem() {
         profit: profit,
         roi: roi
     };
-    var currentAccount = localStorage.getItem('currentAccount')
     firebase.database().ref(currentAccount).push(dataPoint);
     name.value = '';
-    size.value = '';
     condo.value = '';
     notes.value = '';
     price.value = '';
@@ -85,8 +84,8 @@ function clearAll() {
     }
     profit = 0;
     document.getElementById('money').innerHTML = profit;
-    firebase.database().ref(localStorage.getItem("currentAccount")).remove();
-    firebase.database().ref(databaseRef2).set({ profit: '0' });
+    firebase.database().ref(currentAccount).remove();
+    //firebase.database().ref(databaseRef2).set({ profit: '0' });
 }
 
 function remove(event) {
@@ -95,10 +94,10 @@ function remove(event) {
     var content = parent.getElementsByClassName('content');
 
     profit -= parseFloat(content[6].innerHTML.replace('$', ''));
-    document.getElementById('money').innerHTML.replace("$", '') = profit;
-    firebase.database().ref(databaseRef2).set({ profit: profit });
+    document.getElementById('money').innerHTML = profit;
+    //firebase.database().ref(databaseRef2).set({ profit: profit });
     document.getElementById(id).innerHTML = '';
-    firebase.database().ref("item").child(id).remove();
+    firebase.database().ref(currentAccount).child(id).remove();
 }
 
 function update(event) {
@@ -119,7 +118,7 @@ function update(event) {
     document.getElementById('price2').value = t5.replace("$", "");
     document.getElementById('sold2').value = t6.replace("$", "");
     profit -= parseFloat(content[6].innerHTML.replace("$", ""));
-    firebase.database().ref(databaseRef2).set({ profit: profit });
+    //firebase.database().ref(databaseRef2).set({ profit: profit });
     tempID = id;
 }
 
@@ -146,7 +145,7 @@ function edit() {
         element.getElementsByClassName('content')[7].innerHTML = newROI;
         profit += parseFloat(newProfit.replace("$", ""));
         document.getElementById('money').innerHTML = profit;
-        firebase.database().ref(databaseRef2).set({ profit: profit });
+        // firebase.database().ref(databaseRef2).set({ profit: profit });
         firebase.database().ref("item").child(tempID).update({
             name: t1,
             size: t2,
@@ -175,15 +174,14 @@ function cancel() {
 
 
 //var databaseRef = firebase.database().ref('item');
-var databaseRef2 = firebase.database().ref('total profit');
-firebase.database().ref(databaseRef2).update({ profit: '0' });
+//var databaseRef2 = firebase.database().ref('total profit');
+//firebase.database().ref(databaseRef2).update({ profit: '0' });
 
-firebase.database().ref(localStorage.getItem("currentAccount")).on('child_added', (snapshot) => {
+firebase.database().ref(currentAccount).on('child_added', (snapshot) => {
     renderTask(snapshot.key, snapshot.val().name, snapshot.val().size, snapshot.val().condo, snapshot.val().notes, snapshot.val().purchasePrice, snapshot.val().salesPrice, snapshot.val().profit, snapshot.val().roi)
 });
 
-let userName = localStorage.getItem("currentAccount");
-document.getElementById("user").innerHTML = userName;
+document.getElementById("user").innerHTML = currentAccount;
 
 document.getElementById('clear').addEventListener('click', clearAll);
 document.getElementById('edit').addEventListener('click', edit);
