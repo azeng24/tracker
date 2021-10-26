@@ -84,8 +84,8 @@ function clearAll() {
         table.removeChild(table.childNodes[2]);
     }
     profit = 0;
-    document.getElementById('money').innerHTML.replace("$", "") = profit;
-    firebase.database().ref('item').remove();
+    document.getElementById('money').innerHTML = profit;
+    firebase.database().ref(localStorage.getItem("currentAccount")).remove();
     firebase.database().ref(databaseRef2).set({ profit: '0' });
 }
 
