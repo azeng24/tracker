@@ -1,6 +1,7 @@
 var tempID = 0;
 var profit = 0;
-let currentAccount = localStorage.getItem('currentAccount')
+let currentAccount = localStorage.getItem('currentAccount');
+
 
 function addItem() {
     let name = document.getElementById('name');
@@ -72,8 +73,8 @@ function renderTask(id, x1, x2, x3, x4, x5, x6, x7, x8) {
     profit += parseFloat(x7);
     document.getElementById('money').innerHTML = profit;
 
-    buttons.getElementsByClassName('delete')[0].addEventListener('click', function(e) { remove(e); });
-    buttons.getElementsByClassName('update')[0].addEventListener('click', function(e) { update(e); });
+    buttons.getElementsByClassName('delete')[0].addEventListener('click', function (e) { remove(e); });
+    buttons.getElementsByClassName('update')[0].addEventListener('click', function (e) { update(e); });
 }
 
 function clearAll() {
@@ -172,10 +173,6 @@ function cancel() {
 }
 
 
-
-//var databaseRef = firebase.database().ref('item');
-//var databaseRef2 = firebase.database().ref('total profit');
-//firebase.database().ref(databaseRef2).update({ profit: '0' });
 
 firebase.database().ref(currentAccount).on('child_added', (snapshot) => {
     renderTask(snapshot.key, snapshot.val().name, snapshot.val().size, snapshot.val().condo, snapshot.val().notes, snapshot.val().purchasePrice, snapshot.val().salesPrice, snapshot.val().profit, snapshot.val().roi)
